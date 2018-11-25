@@ -2,63 +2,37 @@ ARG TAG="20181122"
 
 FROM huggla/alpine-official:$TAG
 
-# ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
-
-# http://bugs.python.org/issue19846
-# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
 ENV LANG C.UTF-8
-# https://github.com/docker-library/python/issues/147
 ENV PYTHONIOENCODING UTF-8
-
-# install ca-certificates so that HTTPS works consistently
-# other runtime dependencies for Python are installed later
-RUN apk add ca-certificates
-
-ENV GPG_KEY C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF
 ENV PYTHON_VERSION 2.7.15
 
-RUN set -ex \
-	&& apk add --no-cache --virtual .fetch-deps \
-		gnupg \
-		tar \
-		xz \
-	\
-	&& wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
-	&& wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
-	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY" \
-	&& gpg --batch --verify python.tar.xz.asc python.tar.xz \
-	&& { command -v gpgconf > /dev/null && gpgconf --kill all || :; } \
-	&& rm -rf "$GNUPGHOME" python.tar.xz.asc \
-	&& mkdir -p /usr/src/python \
-	&& tar -xJC /usr/src/python --strip-components=1 -f python.tar.xz \
-	&& rm python.tar.xz \
-	\
-	&& apk add --no-cache --virtual .build-deps  \
-		bzip2-dev \
-		coreutils \
-		dpkg-dev dpkg \
-		findutils \
-		gcc \
-		gdbm-dev \
-		libc-dev \
-		libnsl-dev \
-		libressl-dev \
-		libtirpc-dev \
-		linux-headers \
-		make \
-		ncurses-dev \
-		pax-utils \
-		readline-dev \
-		sqlite-dev \
-		tcl-dev \
-		tk \
-		tk-dev \
-		zlib-dev \
-# add build deps before removing fetch deps in case there's overlap
-	&& apk del .fetch-deps \
-	\
+RUN apk add ca-certificates \
+ && wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
+ && mkdir -p /usr/src/python \
+ && tar -xJC /usr/src/python --strip-components=1 -f python.tar.xz \
+ && rm python.tar.xz \
+ && apk add --virtual .build-deps \
+    bzip2-dev \
+    coreutils \
+    dpkg-dev dpkg \
+    findutils \
+    gcc \
+    gdbm-dev \
+    libc-dev \
+    libnsl-dev \
+    libressl-dev \
+    libtirpc-dev \
+    linux-headers \
+    make \
+    ncurses-dev \
+    pax-utils \
+    readline-dev \
+    sqlite-dev \
+    tcl-dev \
+    tk \
+    tk-dev \
+    zlib-dev \
 	&& cd /usr/src/python \
 	&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
 	&& ./configure \
