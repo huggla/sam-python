@@ -1,10 +1,6 @@
-#
-# NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
-#
-# PLEASE DO NOT EDIT IT DIRECTLY.
-#
+ARG TAG="20181122"
 
-FROM alpine:3.8
+FROM huggla/alpine-official:$TAG
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
