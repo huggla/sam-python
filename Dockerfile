@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM huggla/alpine-official:20181122
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
 # http://bugs.python.org/issue19846
