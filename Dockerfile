@@ -46,6 +46,8 @@ RUN apk add --virtual .build-deps ca-certificates bzip2-dev coreutils dpkg-dev d
           apk --root /excludefs info -L $EXCLUDEAPKS | grep -v 'contains:$' | grep -v '^$' | awk '{system("ls -la /"$1)}' | awk -F " " '{print $5" "$9}' | sort -u -o /onbuild-exclude.filelist /onbuild-exclude.filelist -; \
        fi; \
        rm -rf /excludefs; \
-    fi
+    fi \
+ && gzip -9 /onbuild-exclude.filelist \
+ && chmod go= /onbuild-exclude.filelist.gz
 
 CMD ["python2"]
