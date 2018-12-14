@@ -1,4 +1,6 @@
 ARG TAG="20181204"
+ARG EXCLUDEAPKS="python2"
+ARG EXCLUDEDEPS="python2"
 
 FROM huggla/alpine-official:$TAG
 
@@ -26,6 +28,24 @@ RUN apk add --virtual .build-deps ca-certificates bzip2-dev coreutils dpkg-dev d
  && python /get-pip.py --disable-pip-version-check --no-cache-dir "pip==$PYTHON_PIP_VERSION" \
  && find /usr/local -depth \( -type d -a \( -name test -o -name tests \) \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) -exec rm -rf '{}' + \
  && rm -f /get-pip.py \
- && apk del .build-deps
+ && apk del .build-deps \
+ && apk info -L $(apk info | xargs) | grep -v 'contains:$' | grep -v '^$' | awk '{system("ls -la /"$1)}' | awk -F " " '{print $5" "$9}' | sort -u - > /onbuild-exclude.filelist; \
+ && if [ -n "$EXCLUDEDEPS" ] || [ -n "$EXCLUDEAPKS" ]; \
+    then \
+       mkdir /excludefs; \
+       apk --root /excludefs add --initdb; \
+       ln -s /var/cache/apk/* /excludefs/var/cache/apk/; \
+       if [ -n "$EXCLUDEDEPS" ]; \
+       then \
+          apk --repositories-file /etc/apk/repositories --keys-dir /etc/apk/keys --root /excludefs add $EXCLUDEDEPS; \
+          apk --root /excludefs info -R $EXCLUDEDEPS | grep -v 'depends on:$' | grep -v '^$' | sort -u - | xargs apk info -L | grep -v 'contains:$' | grep -v '^$' | awk '{system("ls -la /"$1)}' | awk -F " " '{print $5" "$9}' | sort -u -o /onbuild-exclude.filelist /onbuild-exclude.filelist -; \
+       fi; \
+       if [ -n "$EXCLUDEAPKS" ]; \
+       then \
+          apk --repositories-file /etc/apk/repositories --keys-dir /etc/apk/keys --root /excludefs add $EXCLUDEAPKS; \
+          apk --root /excludefs info -L $EXCLUDEAPKS | grep -v 'contains:$' | grep -v '^$' | awk '{system("ls -la /"$1)}' | awk -F " " '{print $5" "$9}' | sort -u -o /onbuild-exclude.filelist /onbuild-exclude.filelist -; \
+       fi; \
+       rm -rf /excludefs; \
+    fi
 
 CMD ["python2"]
