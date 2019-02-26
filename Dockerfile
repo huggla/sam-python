@@ -7,8 +7,8 @@ FROM huggla/alpine-official:$TAG
 ENV PATH="/usr/local/bin:$PATH" \
     LANG="C.UTF-8" \
     PYTHONIOENCODING="UTF-8" \
-    PYTHON_VERSION="2.7.15" \
-    PYTHON_PIP_VERSION="18.1"
+    PYTHON_VERSION="2.7.16" \
+    PYTHON_PIP_VERSION="19.2"
 
 RUN apk add --virtual .build-deps ca-certificates bzip2-dev coreutils dpkg-dev dpkg findutils gcc gdbm-dev libc-dev libnsl-dev libressl-dev libtirpc-dev linux-headers make ncurses-dev pax-utils readline-dev sqlite-dev tcl-dev tk tk-dev zlib-dev \
  && wget -O /python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
