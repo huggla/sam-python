@@ -52,3 +52,7 @@ RUN apk add --virtual .build-deps ca-certificates bzip2-dev coreutils dpkg-dev d
  && chmod go= /onbuild-exclude.filelist.gz
 
 CMD ["python2"]
+
+ONBUILD RUN apk update \
+     && apk upgrade \
+     && pip --no-cache-dir install --upgrade pip
