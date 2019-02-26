@@ -2,7 +2,7 @@ ARG TAG="20190220"
 ARG EXCLUDEAPKS="python2"
 ARG EXCLUDEDEPS="python2"
 
-FROM huggla/alpine-official:$TAG
+FROM huggla/alpine-official
 
 ENV PATH="/usr/local/bin:$PATH" \
     LANG="C.UTF-8" \
