@@ -28,7 +28,7 @@ RUN apk add --virtual .build-deps ca-certificates bzip2-dev coreutils dpkg-dev d
  && find /usr/local -depth \( -type d -a \( -name test -o -name tests \) \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) -exec rm -rf '{}' + \
  && rm -f /get-pip.py \
  && apk del .build-deps \
- && apk info -L $(apk info | xargs) | grep -v 'contains:$' | grep -v '^$' | awk '{system("ls -la /"$1)}' | awk -F " " '{print $5" "$9}' | sort -u - > /onbuild-exclude.filelist; \
+ && apk info -L $(apk info | xargs) | grep -v 'contains:$' | grep -v '^$' | awk '{system("ls -la /"$1)}' | awk -F " " '{print $5" "$9}' | sort -u - > /onbuild-exclude.filelist \
  && if [ -n "$EXCLUDEDEPS" ] || [ -n "$EXCLUDEAPKS" ]; \
     then \
        mkdir /excludefs; \
