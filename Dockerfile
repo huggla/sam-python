@@ -1,5 +1,24 @@
+# Secure and Minimal base-image with Python
+# https://hub.docker.com/repository/docker/huggla/sam-python
+
+# =========================================================================
+# Init
+# =========================================================================
+# ARGs (can be passed to Build/Final) <BEGIN>
+ARG SaM_VERSION="2.0.1"
+ARG IMAGETYPE="base"
+ARG PYTHON_VERSION="2.7.17"
+ARG PYTHON_PIP_VERSION="19.0.3"
+ARG HUBPROFILE="huggla"
+ARG HUBREPO="python"
+ARG HUBVERSION="$PYTHON_VERSION"
+ARG PYTHONIOENCODING="UTF-8"
 ARG EXCLUDEAPKS="python2"
 ARG EXCLUDEDEPS="python2"
+ARG BUILDDEPS="ca-certificates bzip2-dev coreutils dpkg-dev dpkg findutils gcc gdbm-dev libc-dev libnsl-dev libressl-dev libtirpc-dev linux-headers make ncurses-dev pax-utils readline-dev sqlite-dev tcl-dev tk tk-dev zlib-dev"
+ARG DOWNLOADS="https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz"
+    
+    
 
 FROM huggla/alpine-official
 
