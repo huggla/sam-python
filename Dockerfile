@@ -16,7 +16,7 @@ ARG PYTHONIOENCODING="UTF-8"
 ARG EXCLUDEAPKS="python2"
 ARG EXCLUDEDEPS="python2"
 ARG BUILDDEPS="ca-certificates bzip2-dev coreutils dpkg-dev dpkg findutils gcc gdbm-dev libc-dev libnsl-dev libressl-dev libtirpc-dev linux-headers make ncurses-dev pax-utils readline-dev sqlite-dev tcl-dev tk tk-dev zlib-dev"
-ARG DOWNLOADS="https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz https://bootstrap.pypa.io/get-pip.py"
+ARG DOWNLOADS="https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz"
 ARG BUILDCMDS=\
 "   cd Python-$PYTHON_VERSION "\
 '&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" '\
@@ -24,8 +24,7 @@ ARG BUILDCMDS=\
 "&& find /finalfs/usr/local -type f -executable ! -name '*tkinter*' -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' | tr ',' '\n' | sort -u | awk 'system(\"[ -e /usr/local/lib/\" \$1 \" ]\") == 0 { next } { print \"so:\" \$1 }' | xargs -rt apk --repositories-file /etc/apk/repositories --keys-dir /etc/apk/keys --no-cache --initramfs-diskless-boot --clean-protected --root /finalfs add --virtual .python-rundeps "\
 '&& mv ../get-pip.py /finalfs/'
 ARG FINALCMDS=\
-"   python /get-pip.py --disable-pip-version-check --no-cache-dir \"pip==$PYTHON_PIP_VERSION\" "\
-'&& rm -f /get-pip.py '\
+"   pip --no-cache-dir install --upgrade pip "\
 "&& find /usr/local -depth \( -type d -a \( -name test -o -name tests \) \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) -exec rm -rf '{}' +"
 # ARGs (can be passed to Build/Final) </END>
 
