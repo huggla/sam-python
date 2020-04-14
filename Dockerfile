@@ -5,7 +5,7 @@
 # Init
 # =========================================================================
 # ARGs (can be passed to Build/Final) <BEGIN>
-ARG SaM_VERSION="dev"
+ARG SaM_VERSION="2.0.2"
 ARG IMAGETYPE="base"
 ARG PYTHON_VERSION="2.7.17"
 ARG PYTHON_PIP_VERSION="19.0.3"
