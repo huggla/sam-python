@@ -21,7 +21,7 @@ ARG BUILDCMDS=\
 "   cd Python-$PYTHON_VERSION "\
 '&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" '\
 '&& eval "$COMMON_CONFIGURECMD --build="$gnuArch" --enable-optimizations --enable-option-checking=fatal --enable-shared --enable-unicode=ucs4 --with-system-expat --with-system-ffi --with-ensurepip=install" '\
-"&& make -s EXTRA_CFLAGS=\"-DTHREAD_STACK_SIZE=0x100000\" PROFILE_TASK='-m test.regrtest --pgo test_array test_base64 test_binascii' "\
+"&& make -s EXTRA_CFLAGS=\"-DTHREAD_STACK_SIZE=0x100000\" PROFILE_TASK='-m test.regrtest --pgo test_array test_base64 test_binascii test_binhex test_binop test_bytes test_c_locale_coercion test_class' "\
 '&& make install'
 ARG FINALCMDS=\
 "   find /usr -depth \( -type d -a \( -name test -o -name tests -o -name idle_test \) \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) -exec rm -rf '{}' +"
