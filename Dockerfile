@@ -8,23 +8,23 @@
 ARG SaM_VERSION="2.0.2"
 ARG IMAGETYPE="base"
 ARG PYTHON_VERSION="2.7.17"
+ARG PYTHON_PIP_VERSION="19.0.3"
 ARG HUBPROFILE="huggla"
 ARG HUBREPO="python"
 ARG HUBVERSION="$PYTHON_VERSION"
 ARG PYTHONIOENCODING="UTF-8"
 ARG EXCLUDEAPKS="python2"
 ARG EXCLUDEDEPS="python2"
-ARG BUILDDEPS="ca-certificates bzip2-dev coreutils dpkg-dev dpkg expat-dev findutils gcc gdbm-dev libc-dev libnsl-dev openssl-dev libtirpc-dev linux-headers make ncurses-dev pax-utils readline-dev sqlite-dev tcl-dev tk tk-dev zlib-dev"
+ARG BUILDDEPS="ca-certificates bzip2-dev coreutils dpkg-dev dpkg findutils gcc gdbm-dev libc-dev libnsl-dev libressl-dev libtirpc-dev linux-headers make ncurses-dev pax-utils readline-dev sqlite-dev tcl-dev tk tk-dev zlib-dev"
 ARG DOWNLOADS="https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz"
 ARG BUILDCMDS=\
 "   cd Python-$PYTHON_VERSION "\
 '&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" '\
 '&& eval "$COMMON_CONFIGURECMD --with-ensurepip=install" '\
-"&& make -s EXTRA_CFLAGS=\"-DTHREAD_STACK_SIZE=0x100000\" "\
-'&& make install '\
+'&& eval "$COMMON_MAKECMDS" '\
 "&& find /finalfs/usr/local -type f -executable ! -name '*tkinter*' -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' | tr ',' '\n' | sort -u | awk 'system(\"[ -e /usr/local/lib/\" \$1 \" ]\") == 0 { next } { print \"so:\" \$1 }' | xargs -rt apk --repositories-file /etc/apk/repositories --keys-dir /etc/apk/keys --no-cache --initramfs-diskless-boot --clean-protected --root /finalfs add --virtual .python-rundeps"
 ARG FINALCMDS=\
-"   find /usr/local -depth \( -type d -a \( -name test -o -name tests -o -name idle_test \) \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) -exec rm -rf '{}' +"
+"   find /usr/local -depth \( -type d -a \( -name test -o -name tests \) \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) -exec rm -rf '{}' +"
 # ARGs (can be passed to Build/Final) </END>
 
 # Generic template (don't edit) <BEGIN>
