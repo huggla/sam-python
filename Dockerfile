@@ -15,12 +15,12 @@ ARG PYTHONIOENCODING="UTF-8"
 ARG EXCLUDEAPKS="python2"
 ARG EXCLUDEDEPS="python2"
 ARG RUNDEPS="libressl"
-ARG BUILDDEPS="ca-certificates bzip2-dev coreutils dpkg-dev dpkg findutils gcc gdbm-dev libc-dev libnsl-dev libressl-dev libtirpc-dev linux-headers make ncurses-dev pax-utils readline-dev sqlite-dev tcl-dev tk tk-dev zlib-dev"
+ARG BUILDDEPS="ca-certificates bzip2-dev coreutils dpkg-dev dpkg expat-dev findutils gcc gdbm-dev libc-dev libnsl-dev libressl-dev libtirpc-dev linux-headers make ncurses-dev pax-utils readline-dev sqlite-dev tcl-dev tk tk-dev zlib-dev"
 ARG DOWNLOADS="https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz"
 ARG BUILDCMDS=\
 "   cd Python-$PYTHON_VERSION "\
 '&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" '\
-'&& eval "$COMMON_CONFIGURECMD --with-ensurepip=install" '\
+'&& eval "$COMMON_CONFIGURECMD --build="$gnuArch" --enable-optimizations --enable-option-checking=fatal --enable-shared --enable-unicode=ucs4 --with-system-expat --with-system-ffi --with-ensurepip=install" '\
 '&& eval "$COMMON_MAKECMDS" '\
 "&& find /finalfs/usr/local -type f -executable ! -name '*tkinter*' -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' | tr ',' '\n' | sort -u | awk 'system(\"[ -e /usr/local/lib/\" \$1 \" ]\") == 0 { next } { print \"so:\" \$1 }' | xargs -rt apk --repositories-file /etc/apk/repositories --keys-dir /etc/apk/keys --no-cache --initramfs-diskless-boot --clean-protected --root /finalfs add --virtual .python-rundeps"
 ARG FINALCMDS=\
