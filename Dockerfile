@@ -24,7 +24,7 @@ ARG BUILDCMDS=\
 "&& make -s EXTRA_CFLAGS=\"-DTHREAD_STACK_SIZE=0x100000\" "\
 '&& make install '\
 "&& find /finalfs/usr/local -type f -executable ! -name '*tkinter*' -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' | tr ',' '\n' | sort -u | awk 'system(\"[ -e /usr/local/lib/\" \$1 \" ]\") == 0 { next } { print \"so:\" \$1 }' | xargs -rt apk --repositories-file /etc/apk/repositories --keys-dir /etc/apk/keys --no-cache --initramfs-diskless-boot --clean-protected --root /finalfs add --virtual .python-rundeps "\
-"&& apk info -R .python-rundeps"
+"&& apk --root /finalfs info -R .python-rundeps"
 ARG FINALCMDS=\
 "   find /usr/local -depth \( -type d -a \( -name test -o -name tests \) \) -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) -exec rm -rf '{}' +"
 # ARGs (can be passed to Build/Final) </END>
