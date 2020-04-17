@@ -21,7 +21,7 @@ ARG BUILDCMDS=\
 "   cd Python-$PYTHON_VERSION "\
 '&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" '\
 '&& eval "$COMMON_CONFIGURECMD --build="$gnuArch" --enable-optimizations --enable-option-checking=fatal --enable-shared --enable-unicode=ucs4 --with-system-expat --with-system-ffi --with-ensurepip=install" '\
-"&& make -s EXTRA_CFLAGS=\"-DTHREAD_STACK_SIZE=0x100000\" "\
+"&& make -s EXTRA_CFLAGS=\"-DTHREAD_STACK_SIZE=0x100000\" PROFILE_TASK=\"-m test.regrtest --pgo test_array test_base64 test_binascii\" "\
 '&& make install '\
 "&& echo \"Python dependencies: $(find /finalfs/usr/local -type f -executable ! -name '*tkinter*' -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' | tr ',' '\n' | sort -u | awk 'system(\"[ -e /usr/local/lib/\" \$1 \" ]\") == 0 { next } { print \"so:\" \$1 }' | xargs -rt)\""
 ARG FINALCMDS=\	
