@@ -26,7 +26,7 @@ ARG BUILDCMDS=\
 "&& echo \"Python dependencies: $(find /finalfs/usr/local -type f -executable ! -name '*tkinter*' -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' | tr ',' '\n' | sort -u | awk 'system(\"[ -e /usr/local/lib/\" \$1 \" ]\") == 0 { next } { print \"so:\" \$1 }' | xargs -rt)\""
 ARG FINALCMDS=\	
 "   find /usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) -exec rm -rf '{}' + "\
-"&& find /usr -depth -type f -a \( -name '*.pyc' -o -name '*.pyo' \)"
+"&& find /usr -depth -type f -a \( -name '*.pyc' -o -name '*.pyo' -o -name '*.exe' \)"
 # ARGs (can be passed to Build/Final) </END>
 
 # Generic template (don't edit) <BEGIN>
