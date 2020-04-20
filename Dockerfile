@@ -15,7 +15,7 @@ ARG PYTHONIOENCODING="UTF-8"
 ARG EXCLUDEAPKS="python2"
 ARG EXCLUDEDEPS="python2"
 ARG RUNDEPS="libressl"
-ARG BUILDDEPS="ca-certificates bzip2-dev coreutils dpkg-dev dpkg expat-dev findutils gcc gdbm-dev libc-dev libnsl-dev libressl-dev libtirpc-dev linux-headers make ncurses-dev pax-utils readline-dev sqlite-dev tcl-dev tk tk-dev zlib-dev"
+ARG BUILDDEPS="g++ ca-certificates bzip2-dev coreutils dpkg-dev dpkg expat-dev findutils gcc gdbm-dev libc-dev libnsl-dev libressl-dev libtirpc-dev linux-headers make ncurses-dev pax-utils readline-dev sqlite-dev tcl-dev tk tk-dev zlib-dev"
 ARG DOWNLOADS="https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz"
 ARG BUILDCMDS=\
 "   cd Python-$PYTHON_VERSION "\
