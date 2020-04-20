@@ -28,6 +28,9 @@ ARG FINALCMDS=\
 "   find /usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) -exec rm -rf '{}' + "\
 "&& find /usr -depth -type f -a \( -name '*.pyo' -o -name '*.exe' \) -exec rm -rf '{}' + "\
 "&& find /usr -depth -type f -a \( -name '*.pyc' -o \)"
+ARG CONTENTCMDS=\
+'   mkdir -p $DESTDIR-app/usr/include/python2.7 '\
+'&& mv $DESTDIR-dev/usr/include/python2.7/pyconfig.h $DESTDIR-app/usr/include/python2.7/'
 # ARGs (can be passed to Build/Final) </END>
 
 # Generic template (don't edit) <BEGIN>
