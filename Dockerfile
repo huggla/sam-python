@@ -19,7 +19,6 @@ ARG BUILDDEPS="g++ ca-certificates bzip2-dev coreutils dpkg-dev dpkg expat-dev f
 ARG DOWNLOADS="https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz"
 ARG BUILDCMDS=\
 "   cd Python-$PYTHON_VERSION "\
-'&& rm -r Modules/expat Modules/_ctypes/libffi* Modules/zlib '\
 '&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" '\
 '&& eval "OPT=\"$CFLAGS -DTHREAD_STACK_SIZE=0x100000\" $COMMON_CONFIGURECMD --build="$gnuArch" --enable-optimizations --enable-option-checking=fatal --enable-shared --enable-unicode=ucs4 --with-system-expat --with-system-ffi --with-threads --with-ensurepip=install" '\
 "&& OPT=\"\$CFLAGS -DTHREAD_STACK_SIZE=0x100000\" make -s EXTRA_CFLAGS=\"\$CFLAGS -DTHREAD_STACK_SIZE=0x100000\" PROFILE_TASK=\"-m test.regrtest --pgo test_array test_base64 test_binascii test_binhex test_binop test_bytes test_c_locale_coercion test_class test_cmath test_codecs test_compile test_complex test_csv test_decimal test_dict test_float test_fstring test_hashlib test_io test_iter test_json test_long test_math test_memoryview test_pickle test_re test_set test_slice test_struct test_time test_traceback test_unicode \" "\
