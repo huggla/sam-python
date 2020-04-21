@@ -22,24 +22,13 @@ ARG BUILDCMDS=\
 '&& gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" '\
 '&& eval "OPT=\"$CFLAGS -DTHREAD_STACK_SIZE=0x100000\" $COMMON_CONFIGURECMD --build="$gnuArch" --enable-optimizations --enable-option-checking=fatal --enable-shared --enable-unicode=ucs4 --with-system-expat --with-system-ffi --with-threads --with-ensurepip=install" '\
 "&& OPT=\"\$CFLAGS -DTHREAD_STACK_SIZE=0x100000\" make -s EXTRA_CFLAGS=\"\$CFLAGS -DTHREAD_STACK_SIZE=0x100000\" PROFILE_TASK=\"-m test.regrtest --pgo test_array test_base64 test_binascii test_binhex test_binop test_bytes test_c_locale_coercion test_class test_cmath test_codecs test_compile test_complex test_csv test_decimal test_dict test_float test_fstring test_hashlib test_io test_iter test_json test_long test_math test_memoryview test_pickle test_re test_set test_slice test_struct test_time test_traceback test_unicode \" "\
-'&& make install '\
-"&& echo \"Python dependencies: $(find /finalfs/usr/local -type f -executable ! -name '*tkinter*' -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' | tr ',' '\n' | sort -u | awk 'system(\"[ -e /usr/local/lib/\" \$1 \" ]\") == 0 { next } { print \"so:\" \$1 }' | xargs -rt)\""
+'&& make install'
 ARG FINALCMDS=\	
-' find /usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) '\
-'&&  find /usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) -exec rm -rf "{}" + '\
-'&& find /usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) '\
-'&& find /usr -depth -type f -a \( -name "*.pyo" -o -name "*.exe" \) '\
-'&& find /usr -depth -type f -a \( -name "*.pyo" -o -name "*.exe" \) -exec rm -rf "{}" + '\
-'&& find /usr -depth -type f -a \( -name "*.pyo" -o -name "*.exe" \) '\
-'&& find /usr -depth -type f -a \( -name "*.pyc" \) -exec rm -rf "{}" + '\
+'   find /content/usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) -exec rm -rf "{}" + '\
+'&& find /content/usr -depth -type f -a \( -name "*.pyo" -o -name "*.exe" \) -exec rm -rf "{}" + '\
+'&& find /content/usr -depth -type f -a \( -name "*.pyc" \) -exec rm -rf "{}" + '\
 '&& mkdir -p $DESTDIR-app/usr/include/python2.7 '\
-'&& pwd '\
-'&& ls -la '\
-'&& ls -la /usr '\
-'&& ls -la /usr/include '\
-'&& ls -la /usr/include/python2.7 '\
-'&& ls -la $DESTDIR-app/usr/include/python2.7 '\
-'&& mv /usr/include/python2.7/pyconfig.h $DESTDIR-app/usr/include/python2.7/'
+'&& mv /content/usr/include/python2.7/pyconfig.h $DESTDIR-app/usr/include/python2.7/'
 # ARGs (can be passed to Build/Final) </END>
 
 # Generic template (don't edit) <BEGIN>
