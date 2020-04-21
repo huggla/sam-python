@@ -13,6 +13,7 @@ ARG CONTENTSOURCE1="/content-app"
 ARG CONTENTDESTINATION1="/finalfs/"
 ARG PYTHONIOENCODING="UTF-8"
 ARG RUNDEPS="libressl"
+ARG FINALCMDS="pip --no-cache-dir install --upgrade pip"
 # ARGs (can be passed to Build/Final) </END>
 
 # Generic template (don't edit) <BEGIN>
