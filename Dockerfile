@@ -25,10 +25,20 @@ ARG BUILDCMDS=\
 '&& make install '\
 "&& echo \"Python dependencies: $(find /finalfs/usr/local -type f -executable ! -name '*tkinter*' -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' | tr ',' '\n' | sort -u | awk 'system(\"[ -e /usr/local/lib/\" \$1 \" ]\") == 0 { next } { print \"so:\" \$1 }' | xargs -rt)\""
 ARG FINALCMDS=\	
-'   find /usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) -exec rm -rf "{}" + '\
+' find /usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) '\
+'&&  find /usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) -exec rm -rf "{}" + '\
+'&& find /usr -depth -type d -a \( -name test -o -name tests -o -name idle_test \) '\
+'&& find /usr -depth -type f -a \( -name "*.pyo" -o -name "*.exe" \) '\
 '&& find /usr -depth -type f -a \( -name "*.pyo" -o -name "*.exe" \) -exec rm -rf "{}" + '\
+'&& find /usr -depth -type f -a \( -name "*.pyo" -o -name "*.exe" \) '\
 '&& find /usr -depth -type f -a \( -name "*.pyc" \) -exec rm -rf "{}" + '\
 '&& mkdir -p $DESTDIR-app/usr/include/python2.7 '\
+'&& pwd '\
+'&& ls -la '\
+'&& ls -la /usr '\
+'&& ls -la /usr/include '\
+'&& ls -la /usr/include/python2.7 '\
+'&& ls -la $DESTDIR-app/usr/include/python2.7 '\
 '&& mv /usr/include/python2.7/pyconfig.h $DESTDIR-app/usr/include/python2.7/'
 # ARGs (can be passed to Build/Final) </END>
 
