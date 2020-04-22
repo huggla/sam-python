@@ -12,7 +12,7 @@ ARG CONTENTIMAGE1="huggla/sam-content:python-$PYTHON_VERSION"
 ARG CONTENTSOURCE1="/content-app"
 ARG CONTENTDESTINATION1="/finalfs/"
 ARG PYTHONIOENCODING="UTF-8"
-ARG RUNDEPS="libressl libffi"
+ARG RUNDEPS="libressl"
 ARG FINALCMDS="pip --no-cache-dir install --upgrade pip"
 # ARGs (can be passed to Build/Final) </END>
 
