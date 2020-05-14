@@ -5,7 +5,7 @@
 # Init
 # =========================================================================
 # ARGs (can be passed to Build/Final) <BEGIN>
-ARG SaM_VERSION="2.0.2"
+ARG SaM_VERSION="dev"
 ARG IMAGETYPE="base"
 ARG PYTHON_VERSION="2.7.17"
 ARG CONTENTIMAGE1="huggla/sam-content:python-$PYTHON_VERSION"
